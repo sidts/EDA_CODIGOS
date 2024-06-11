@@ -15,14 +15,16 @@ struct dados
 
 void intercala(int p, int q, int r, struct dados *v[])
 {
-    // está assim por conta da alocação dinamica
+    // está assim por conta da alocação dinamica, w precisa ser um ponteiro duplo porque queremos um array de ponteiros,
+    // e malloc precisa retornar um ponteiro para o início desse array. Portanto, w deve ser um ponteiro para ponteiro (struct dados **).
     struct dados **w;
-    w = malloc((r - p) * sizeof(int));
+    w = malloc((r - p) * sizeof(struct dados *));
     int i = p, j = q;
     int k = 0;
 
     while (i < q && j < r)
     {
+        // -> pois é um ponteiro para struct e não apenas entrar no seu campo com o .
         if (v[i]->populacao <= v[j]->populacao)
             w[k++] = v[i++];
         else

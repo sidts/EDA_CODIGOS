@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 // n é o tamanho do vetor, V* é o ponteiro que aponta para o vetor
+// O(log2n)
 int buscaBinaria(int *V, int n, int chave)
 {
     int inicio, final, meio;
