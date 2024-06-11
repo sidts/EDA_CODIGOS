@@ -13,34 +13,32 @@ struct dados
     int populacao;
 };
 
-int separa(struct dados *a[], int p, int r)
-{
-
-    int c = a[r]->populacao; // pivô
-    int j = p;
-    for (int k = p; k < r; ++k)
-        if (a[k]->populacao <= c)
-        {
-            struct dados *t = a[j];
+int separa(struct dados *a[], int p, int r) {
+    int c = a[r]->populacao; // Define o pivô como a população do último elemento do subarray
+    int j = p; // Inicializa o índice para elementos menores ou iguais ao pivô
+    for (int k = p; k < r; ++k) { // Percorre o subarray de `p` até `r-1`
+        if (a[k]->populacao <= c) { // Se a população do elemento atual é menor ou igual ao pivô
+            struct dados *t = a[j]; // Troca os elementos a[j] e a[k]
             a[j] = a[k];
             a[k] = t;
-            ++j;
+            ++j; // Incrementa `j` para o próximo elemento
         }
-    struct dados *t = a[j];
+    }
+    struct dados *t = a[j]; // Troca o elemento a[j] com o pivô (a[r])
     a[j] = a[r];
     a[r] = t;
-    return j;
+    return j; // Retorna o índice do pivô
 }
 
-void quicksort(struct dados *a[], int p, int r)
-{
-    if (p < r)
-    {
-        int j = separa(a, p, r);
-        quicksort(a, p, j - 1);
-        quicksort(a, j + 1, r);
+
+void quicksort(struct dados *a[], int p, int r) {
+    if (p < r) { // Verifica se o subarray tem mais de um elemento
+        int j = separa(a, p, r); // Particiona o array e obtém o índice do pivô
+        quicksort(a, p, j - 1); // Aplica o quicksort à sublista à esquerda do pivô
+        quicksort(a, j + 1, r); // Aplica o quicksort à sublista à direita do pivô
     }
 }
+
 
 
 int main(){

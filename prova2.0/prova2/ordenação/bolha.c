@@ -13,19 +13,19 @@ struct dados
     int populacao;
 };
 
-void bubbleSort(struct dados *vet[], int tam)
-{
-    int i, j;
-    struct dados *temp;
-    for (i = tam - 1; i > 0; i--)
-    {
-        for (j = 0; j < i; j++) // Faz trocas até posição i
-            if (vet[j]->populacao > vet[j + 1]->populacao)
-            {
-                temp = vet[j];
-                vet[j] = vet[j + 1];
-                vet[j + 1] = temp;
+void bubbleSort(struct dados *vet[], int tam) {
+    int i, j; // Declara variáveis de controle de loop
+    struct dados *temp; // Declara um ponteiro para armazenar temporariamente os elementos durante a troca
+
+    for (i = tam - 1; i > 0; i--) { // Loop externo para percorrer a lista de trás para frente
+        for (j = 0; j < i; j++) { // Loop interno para percorrer a lista até a posição `i`
+            // Compara os elementos adjacentes e troca-os se estiverem fora de ordem
+            if (vet[j]->populacao > vet[j + 1]->populacao) {
+                temp = vet[j]; // Armazena temporariamente o elemento `vet[j]`
+                vet[j] = vet[j + 1]; // Coloca `vet[j + 1]` na posição `vet[j]`
+                vet[j + 1] = temp; // Coloca o elemento armazenado em `temp` na posição `vet[j + 1]`
             }
+        }
     }
 }
 

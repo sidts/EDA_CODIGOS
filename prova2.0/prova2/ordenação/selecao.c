@@ -13,24 +13,28 @@ struct dados
     int populacao;
 };
 
-int smallerIndex(struct dados populacao[], int tam, int ini){
-    int min = ini, j;
-    for(j=ini+1; j<tam; j++){
-        if(populacao[j].populacao > populacao[min].populacao)
-        min = j;
+int smallerIndex(struct dados populacao[], int tam, int ini) {
+    int min = ini, j; // Inicializa `min` com o índice `ini` e declara `j`
+    for (j = ini + 1; j < tam; j++) { // Percorre os elementos a partir de `ini + 1` até o final do array
+        if (populacao[j].populacao > populacao[min].populacao) // Compara a população no índice `j` com a população no índice `min`
+            min = j; // Atualiza `min` se encontrar uma população maior
     }
-    return min;
+    return min; // Retorna o índice do maior elemento encontrado
 }
 
-void ordenaPopulacao(struct dados *populacao, int tam){
-    int i, min, aux;
-    for(i = 0 ; i < tam ; i++){
-        min = smallerIndex(populacao, tam, i);
-        aux = populacao[i].populacao;
-        populacao[i] = populacao[min];
-        populacao[min].populacao = aux;
+
+void ordenaPopulacao(struct dados *populacao, int tam) {
+    int i, min, aux; // Declara variáveis para iteração, armazenamento do índice mínimo e variável auxiliar
+    for (i = 0; i < tam; i++) { // Percorre todos os elementos do array
+        min = smallerIndex(populacao, tam, i); // Chama `smallerIndex` para encontrar o índice do maior elemento a partir de `i`
+        
+        // Troca os elementos nas posições `i` e `min`
+        aux = populacao[i].populacao; // Armazena temporariamente a população do elemento na posição `i`
+        populacao[i] = populacao[min]; // Coloca o elemento da posição `min` na posição `i`
+        populacao[min].populacao = aux; // Coloca a população armazenada temporariamente na posição `min`
     }
 }
+
 
 
 int main(){

@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 // Função de busca sequencial desordenada
+//O(n) medio, O(1) = melhor
 int buscaSequencialDesordenada(int *V, int n, int chave) {
     int posic = -1;
     for (int p = 0; p < n; p++) {

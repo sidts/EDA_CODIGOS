@@ -13,18 +13,22 @@ struct dados
     int populacao;
 };
 
-void insertionSort(struct dados *list[], int n)
-{
-    int i, j;
-    struct dados *next;
-    for (i = 1; i < n; i++)
-    {
-        next = list[i];
-        for (j = i - 1; j >= 0 && next->populacao < list[j]->populacao; j--)
-            list[j + 1] = list[j];
-        list[j + 1] = next;
+void insertionSort(struct dados *list[], int n) {
+    int i, j; // Declara as variáveis de iteração
+    struct dados *next; // Declara um ponteiro para a estrutura que será inserida na posição correta
+
+    for (i = 1; i < n; i++) { // Percorre a lista a partir do segundo elemento até o final
+        next = list[i]; // Armazena o elemento atual em `next`
+        
+        // Encontra a posição correta para `next` movendo os elementos maiores para a direita
+        for (j = i - 1; j >= 0 && next->populacao < list[j]->populacao; j--) {
+            list[j + 1] = list[j]; // Move o elemento `list[j]` uma posição para a direita
+        }
+        
+        list[j + 1] = next; // Insere `next` na posição correta
     }
 }
+
 
 int main(){
     struct dados dados[5571];
