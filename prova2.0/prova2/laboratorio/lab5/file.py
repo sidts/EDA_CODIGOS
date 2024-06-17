@@ -20,4 +20,3 @@ with open(arquivo_entrada, mode='r', newline='') as csvfile:
             if idx < 90:
                 writer.writerow(row)
 
-print(f'As 90 primeiras linhas de {arquivo_entrada} foram salvas em {arquivo_saida}.')
