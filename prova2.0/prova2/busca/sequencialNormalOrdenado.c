@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+
+// complexidade O(n)
 // Função de busca sequencial ordenada
 int buscaSequencialOrdenada(int *V, int n, int chave) {
     int posic = -1;

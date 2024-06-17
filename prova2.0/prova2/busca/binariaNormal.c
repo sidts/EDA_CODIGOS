@@ -20,8 +20,11 @@ int buscaBinaria(int *V, int n, int chave)
     return -1;
 }
 
+// busca binaria é em um vetor ordenado
 int main() {
     int vetor[] = {1, 3, 5, 7, 9, 11, 13, 15, 17, 19};
+    // operação 4(tamanho do byte)*qtd de elementos no vetor/bytes na posição zero
+    //40/4
     int tamanho = sizeof(vetor) / sizeof(vetor[0]);
 
     printf("Vetor: ");
