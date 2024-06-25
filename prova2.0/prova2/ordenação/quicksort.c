@@ -17,7 +17,8 @@ int separa(struct dados *a[], int p, int r) {
     int c = a[r]->populacao; // Define o pivô como a população do último elemento do subarray
     int j = p; // Inicializa o índice para elementos menores ou iguais ao pivô
     for (int k = p; k < r; ++k) { // Percorre o subarray de `p` até `r-1`
-        if (a[k]->populacao <= c) { // Se a população do elemento atual é menor ou igual ao pivô
+        // decrescente >= //// crescente <=
+        if (a[k]->populacao >= c) { // Se a população do elemento atual é menor ou igual ao pivô
             struct dados *t = a[j]; // Troca os elementos a[j] e a[k]
             a[j] = a[k];
             a[k] = t;
