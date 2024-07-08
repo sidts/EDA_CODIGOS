@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// mesma estrutura de listas 
 // Estrutura da árvore binária
 typedef struct node {
     int data;
@@ -21,24 +20,61 @@ node* create_node(int data) {
 // Insere um novo nó na árvore binária
 void insert_node(node **raiz, int data) {
     if (*raiz == NULL) {
-        // se não adiciona no inicio
         *raiz = create_node(data);
     } else {
-        // verifica se o valor que entra é maior ou menor que o no raiz
         if (data <= (*raiz)->data) {
-            // ta apontando para o lado esquerdo, o ponteiro aponta para o endereço de memoria que se localiza a arvore do lado esquerdo
             insert_node(&(*raiz)->left, data);
         } else {
-            // ''  ''   ''  ''  ' '' direito, '' '' '''  ' ' ' ' ' '  '  '  ' '  '  ' '  '  ' ' ' '''  '  ' '  '' '  ' '  '  ' direito
             insert_node(&(*raiz)->right, data);
         }
     }
 }
 
+// Encontra o nó com o menor valor
+node* find_min(node* raiz) {
+    // enquanto existir um filho a esquerda ele continua
+    while (raiz->left != NULL) raiz = raiz->left;
+    // quando o letf é NULL significa que chegou mais a esquerda o nó, ou seja o menor
+    return raiz;
+}
+
+// Remove um nó da árvore binária
+node* delete_node(node *raiz, int data) {
+    if (raiz == NULL) return raiz;
+
+    if (data < raiz->data) {
+        raiz->left = delete_node(raiz->left, data);
+    } else if (data > raiz->data) {
+        raiz->right = delete_node(raiz->right, data);
+    } else {
+        // Nó encontrado, agora vamos removê-lo
+        if (raiz->left == NULL) {
+            // senão tem filho na esquerda retorna o filho da direita
+            node *temp = raiz->right;
+            free(raiz);
+            return temp;
+        } else if (raiz->right == NULL) {
+            // senão tem filho na direita retorna o filho da esquerda
+            node *temp = raiz->left;
+            free(raiz);
+            return temp;
+        }
+
+        // Nó com dois filhos: obtenha o sucessor em ordem (menor na subárvore direita)
+        node *temp = find_min(raiz->right);
+        // procura o maior nó sucessivo baseando-se função anterior
+        raiz->data = temp->data;
+        // copia o valor do nó encontrado para o atual
+        raiz->right = delete_node(raiz->right, temp->data);
+        // Remove o sucessor na subárvore direita chamando recursivamente delete_node na subárvore direita com o valor do sucessor.
+
+    }
+    return raiz;
+}
+
 // Imprime a árvore binária em ordem crescente
 void print_inorder(node *raiz) {
     if (raiz != NULL) {
-        // chamada recursiva
         print_inorder(raiz->left);
         printf("%d ", raiz->data);
         print_inorder(raiz->right);
@@ -47,7 +83,6 @@ void print_inorder(node *raiz) {
 
 // Função principal
 int main() {
-    // Cria a árvore binária
     node *raiz = NULL;
 
     // Insere alguns nós na árvore
@@ -61,6 +96,14 @@ int main() {
 
     // Imprime a árvore em ordem crescente
     printf("Árvore binária em ordem crescente: ");
+    print_inorder(raiz);
+    printf("\n");
+
+    // Remove um nó da árvore
+    raiz = delete_node(raiz, 10);
+
+    // Imprime a árvore em ordem crescente após a remoção
+    printf("Árvore binária em ordem crescente após remoção: ");
     print_inorder(raiz);
     printf("\n");
 
