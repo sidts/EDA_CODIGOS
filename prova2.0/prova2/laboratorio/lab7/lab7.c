@@ -24,13 +24,6 @@ typedef struct DadosCancer {
     struct DadosCancer *esquerda;
 } DadosCancer;
 
-void mostrarOpções()
-{
-    printf("1 - Carregar Arquivo de Dados\n");
-    printf("2 - Emitir Relatorios\n");
-    printf("3 - Sair\n");
-}
-
 
 // Função para criar um novo nó
 DadosCancer* novoNo(int age, char race, char maritalStatus, char tStage, char nStage, char sixthStage, char differentiate, int grade, char aStage, int tumorSize, char estrogenStatus, char progesteroneStatus, int regionalNodeExamined, int reginolNodePositive, int survivalMonths, char status, int linha) {
@@ -72,46 +65,101 @@ DadosCancer* inserirNo(DadosCancer* raiz, DadosCancer* novo) {
 }
 
 
-void carregarArquivo()
-{
-    char *nomeArq[50];
+// Função para carregar o arquivo de dados
+DadosCancer* carregarArquivo(char* nomeArquivo) {
+    FILE *arquivo = fopen(nomeArquivo, "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        return NULL;
+    }
 
-    printf("Digite o nome do arquivo: \n");
-    scanf("%s", nomeArq);
+    DadosCancer *raiz = NULL;
+    int age, grade, tumorSize, regionalNodeExamined, reginolNodePositive, survivalMonths, linha = 0;
+    char race, maritalStatus, tStage, nStage, sixthStage, differentiate, aStage, estrogenStatus, progesteroneStatus, status;
 
-    FILE *ARQBASE = fopen("Breast_Cancer.csv", "r");
+    while (fscanf(arquivo, "%d %c %c %c %c %c %c %d %c %d %c %c %d %d %d %c",
+                  &age, &race, &maritalStatus, &tStage, &nStage, &sixthStage,
+                  &differentiate, &grade, &aStage, &tumorSize, &estrogenStatus,
+                  &progesteroneStatus, &regionalNodeExamined, &reginolNodePositive,
+                  &survivalMonths, &status) != EOF) {
+        DadosCancer *novo = novoNo(age, race, maritalStatus, tStage, nStage, sixthStage, differentiate, grade, aStage, tumorSize, estrogenStatus, progesteroneStatus, regionalNodeExamined, reginolNodePositive, survivalMonths, status, linha);
+        raiz = inserirNo(raiz, novo);
+        linha++;
+    }
+    fclose(arquivo);
+    return raiz;
+}
 
-    if (nomeArq != ARQBASE)
-    {
-        printf("Arquivo Inexistente... \n");
+
+// Função para percorrer a árvore em ordem e imprimir o relatório
+void imprimirRelatorio(DadosCancer* raiz, char* nomeArquivo) {
+    if (raiz == NULL) {
+        printf("Arquivo Vazio!!!\n");
+        return;
+    }
+    FILE *arquivo = fopen(nomeArquivo, "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        return;
+    }
+
+    if (raiz->esquerda != NULL) {
+        imprimirRelatorio(raiz->esquerda, nomeArquivo);
+    }
+
+    char linha[256];
+    fseek(arquivo, 0, SEEK_SET); // Reset file pointer
+    for (int i = 0; i <= raiz->linha; i++) {
+        fgets(linha, sizeof(linha), arquivo);
+    }
+    printf("%s", linha);
+
+    if (raiz->direita != NULL) {
+        imprimirRelatorio(raiz->direita, nomeArquivo);
+    }
+
+    fclose(arquivo);
+}
+
+// Função para desalocar a árvore
+void desalocarArvore(DadosCancer* raiz) {
+    if (raiz != NULL) {
+        desalocarArvore(raiz->esquerda);
+        desalocarArvore(raiz->direita);
+        free(raiz);
     }
 }
 
-void emitirRelatorio()
-{
-}
 
-int main()
-{
+int main() {
+    DadosCancer* raiz = NULL;
     int opcao;
-    do
-    {
-        mostrarOpções();
+    char nomeArquivo[256];
+
+    do {
+        printf("1. Carregar Arquivo de Dados\n");
+        printf("2. Emitir Relatório\n");
+        printf("3. Sair\n");
+        printf("Escolha uma opção: ");
         scanf("%d", &opcao);
-        switch (opcao)
-        {
-        case 1:
-            printf("Carregar Arquivo de Dados\n");
-            break;
-        case 2:
-            printf("Emitir Relatorios\n");
-            break;
-        case 3:
-            printf("Sair\n");
-            break;
-        default:
-            printf("Opção Inválida\n");
+
+        switch (opcao) {
+            case 1:
+                printf("Digite o nome do arquivo: ");
+                scanf("%s", nomeArquivo);
+                raiz = carregarArquivo(nomeArquivo);
+                break;
+            case 2:
+                imprimirRelatorio(raiz, nomeArquivo);
+                break;
+            case 3:
+                desalocarArvore(raiz);
+                printf("Saindo...\n");
+                break;
+            default:
+                printf("Opção inválida!\n");
         }
     } while (opcao != 3);
+
     return 0;
 }
