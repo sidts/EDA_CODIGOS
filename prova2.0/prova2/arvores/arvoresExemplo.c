@@ -26,8 +26,10 @@ void insert_node(node **raiz, int data) {
     } else {
         // verifica se o valor que entra é maior ou menor que o no raiz
         if (data <= (*raiz)->data) {
+            // ta apontando para o lado esquerdo, o ponteiro aponta para o endereço de memoria que se localiza a arvore do lado esquerdo
             insert_node(&(*raiz)->left, data);
         } else {
+            // ''  ''   ''  ''  ' '' direito, '' '' '''  ' ' ' ' ' '  '  '  ' '  '  ' '  '  ' ' ' '''  '  ' '  '' '  ' '  '  ' direito
             insert_node(&(*raiz)->right, data);
         }
     }
