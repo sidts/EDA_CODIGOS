@@ -86,13 +86,17 @@ int main() {
     node *raiz = NULL;
 
     // Insere alguns nós na árvore
-    insert_node(&raiz, 10);
-    insert_node(&raiz, 5);
-    insert_node(&raiz, 15);
+    // nó raiz é o primeiro
     insert_node(&raiz, 2);
-    insert_node(&raiz, 7);
-    insert_node(&raiz, 12);
-    insert_node(&raiz, 20);
+    insert_node(&raiz, 2);
+    insert_node(&raiz, 2);
+    insert_node(&raiz, 0);
+    insert_node(&raiz, 0);
+    insert_node(&raiz, 6);
+    insert_node(&raiz, 6);
+    insert_node(&raiz, 8);
+    insert_node(&raiz, 8);
+
 
     // Imprime a árvore em ordem crescente
     printf("Árvore binária em ordem crescente: ");
@@ -100,7 +104,7 @@ int main() {
     printf("\n");
 
     // Remove um nó da árvore
-    raiz = delete_node(raiz, 10);
+    raiz = delete_node(raiz, 2);
 
     // Imprime a árvore em ordem crescente após a remoção
     printf("Árvore binária em ordem crescente após remoção: ");
