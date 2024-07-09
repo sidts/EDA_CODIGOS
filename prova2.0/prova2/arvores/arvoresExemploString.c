@@ -88,6 +88,7 @@ int main() {
     insert_node(&raiz, "o");
 
     //com essa implementação o segundo t fica na esquerda do t primeiro
+    // no caso desse código
 
     // Imprime a árvore em ordem crescente
     printf("Árvore binária em ordem crescente: ");
